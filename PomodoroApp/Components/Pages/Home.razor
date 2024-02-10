@@ -1,7 +1,70 @@
 ﻿@page "/"
+@using System.Timers
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Pomodoros</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Pomodoros</h1>
 
-Welcome to your new app.
+<p role="status"> @Time</p>
+
+<button class="btn btn-primary" @onclick="StartPomodoroTime">Start Pomodoro</button>
+
+@code {
+    private System.Timers.Timer _timer = null!;
+    private int _secondsToRun = 0;
+
+    private string Time { get; set; } = "00:00";
+
+    [Parameter]
+    public EventCallback TimerOut { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        _timer = new System.Timers.Timer(1000);
+        _timer.Elapsed += OnTimedEvent;
+        _timer.AutoReset = true;
+    }
+
+    public void Start(int secondsToRun)
+    {
+        _secondsToRun = secondsToRun;
+
+        if (_secondsToRun > 0)
+        {
+            Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
+            StateHasChanged();
+            _timer.Start();
+        }
+    }
+
+    private void StartPomodoroTime()
+    {
+        _secondsToRun = 1500;
+
+        if (_secondsToRun > 0)
+        {
+            Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
+            StateHasChanged();
+            _timer.Start();
+        }
+    }
+    
+    private async void OnTimedEvent(object? sender, ElapsedEventArgs e)
+    {
+        _secondsToRun--;
+
+        await InvokeAsync(() =>
+        {
+            Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
+            StateHasChanged();
+        });
+        
+        if (_secondsToRun <= 0)
+        {
+            _timer.Stop();
+            await TimerOut.InvokeAsync();
+        }
+    }
+
+}
