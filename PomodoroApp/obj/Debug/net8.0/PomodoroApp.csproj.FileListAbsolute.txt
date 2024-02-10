@@ -27,3 +27,6 @@ C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.
 C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.0\PomodoroApp.pdb
 C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.0\PomodoroApp.genruntimeconfig.cache
 C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.0\ref\PomodoroApp.dll
+C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.0\PomodoroApp.sourcelink.json
+C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.0\PomodoroApp.RazorAssemblyInfo.cache
+C:\Users\janin\OneDrive\Dokumente\GitHub\PomodoroApp\PomodoroApp\obj\Debug\net8.0\PomodoroApp.RazorAssemblyInfo.cs
