@@ -4,21 +4,26 @@
 
 <PageTitle>Pomodoros</PageTitle>
 
-<h1>Pomodoros</h1>
 
 <p role="status"> @Time</p>
 
-<button class="btn btn-primary" @onclick="StartPomodoroTime">Start Pomodoro</button>
 
+<button class="btn-primary" @onclick="() => SetPomodoroTime(1500)"> Pomodoro</button>
+<button class="btn-primary" @onclick="() => SetPomodoroTime(300)"> Kurze Pause</button>
+<button class="btn-primary" @onclick="() => SetPomodoroTime(900)"> Lange Pause</button>
+
+<br/>
+
+<button class="btn btn-primary" @onclick="StartPomodoroTime">Start</button>
+<button class="btn btn-primary" @onclick="PausePomodoroTime">Pause</button>
 @code {
     private System.Timers.Timer _timer = null!;
     private int _secondsToRun = 0;
 
     private string Time { get; set; } = "00:00";
 
-    [Parameter]
-    public EventCallback TimerOut { get; set; }
-    
+    [Parameter] public EventCallback TimerOut { get; set; }
+
     protected override void OnInitialized()
     {
         _timer = new System.Timers.Timer(1000);
@@ -26,30 +31,30 @@
         _timer.AutoReset = true;
     }
 
-    public void Start(int secondsToRun)
+    private void SetPomodoroTime(int time)
     {
-        _secondsToRun = secondsToRun;
-
-        if (_secondsToRun > 0)
-        {
-            Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
-            StateHasChanged();
-            _timer.Start();
-        }
+        _timer.Stop();
+        this._secondsToRun = time;
+        Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
+        StateHasChanged();
+        Console.Write(_secondsToRun);
     }
+
+
 
     private void StartPomodoroTime()
     {
-        _secondsToRun = 1500;
+        StateHasChanged();
+        _timer.Start();
+    }
 
-        if (_secondsToRun > 0)
-        {
-            Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
-            StateHasChanged();
-            _timer.Start();
-        }
+    private void PausePomodoroTime()
+    {
+        _timer.Stop();
     }
     
+
+
     private async void OnTimedEvent(object? sender, ElapsedEventArgs e)
     {
         _secondsToRun--;
@@ -59,7 +64,7 @@
             Time = TimeSpan.FromSeconds(_secondsToRun).ToString(@"mm\:ss");
             StateHasChanged();
         });
-        
+
         if (_secondsToRun <= 0)
         {
             _timer.Stop();
